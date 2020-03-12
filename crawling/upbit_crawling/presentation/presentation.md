@@ -71,7 +71,8 @@
             for code, name in coin_names.items():
                 collection = db[name]
                 response = requests.get(
-                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+                    code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
                 datas = response.json()
                 idx = collection.insert(datas)
                 print(code, len(idx), end=" ")
@@ -92,7 +93,8 @@
 
             # 지정된 코인 정보 가져오기
             response = requests.get(
-                f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+                f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+                code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
             datas = response.json()
 
             # database에 저장(mongodb)
@@ -158,7 +160,8 @@
             for code, name in coin_names.items():
                 collection = db[name]
                 response = requests.get(
-                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
+                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
+                    code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
                 datas = response.json()
                 idx = collection.insert(datas)
                 print(code, len(idx), end=" ")
@@ -179,7 +182,8 @@
             # 지정된 코인 정보 가져오기
             day = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
             response = requests.get(
-                f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
+                f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
+                code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
             datas = response.json()
 
             # database에 저장(mongodb)
@@ -202,7 +206,8 @@
 
             # 지정된 코인 정보 가져오기
             response = requests.get(
-                f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+                f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+                code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
             datas = response.json()
 
             # database에 저장(mongodb)
@@ -214,15 +219,16 @@
     - 코드 설명
         
       - call_code() : 현재 거래중인 코인의 코드를 가져 옵니다.
-        <img src ='https://user-images.githubusercontent.com/60168331/76542275-1b270400-64c8-11ea-9a73-aa273cb9985a.PNG'>
+        - <img src ='https://user-images.githubusercontent.com/60168331/76542275-1b270400-64c8-11ea-9a73-aa273cb9985a.PNG'>
       - upbit_all(count) : 현재 거래중인 모든 코인의 가격(한화)정보를 가져옵니다.
-       <img src = 'https://user-images.githubusercontent.com/60168331/76542702-ba4bfb80-64c8-11ea-8432-a0c144889fee.PNG'>
+        - <img src = 'https://user-images.githubusercontent.com/60168331/76542702-ba4bfb80-64c8-11ea-8432-a0c144889fee.PNG'>
         - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
         - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
         - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
         - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
+      
       - upbit_coin(code, coin_englingsh_name, count) : 지정한 한개의 코인의 가격을 가져옵니다.
-         <img src = 'https://user-images.githubusercontent.com/60168331/76542703-bae49200-64c8-11ea-8544-515c11371013.PNG'>
+        - <img src = 'https://user-images.githubusercontent.com/60168331/76542703-bae49200-64c8-11ea-8544-515c11371013.PNG'>
         - code : call_code()의 market(code_name)을 지정하여 입력합니다.
         - coin_englingsh_name : call_code()의 englingsh_name을 지정하여 입력합니다.
         - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
@@ -271,7 +277,8 @@
                     for code, name in coin_names.items():
                         collection = db[name]
                         response = requests.get(
-                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
+                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
+                            code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
                         datas = response.json()
                         idx = collection.insert(datas)
                         # print(code, len(idx), end=" ")
@@ -314,7 +321,8 @@
                     for code, name in coin_names.items():
                         collection = db[name]
                         response = requests.get(
-                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+                            code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
                         datas = response.json()
                         idx = collection.insert(datas)
                         print(code, len(idx), end=" ")
@@ -328,7 +336,7 @@
         - count : 가져올 데이터의 갯수를 입력
     - EDA
       - 일일 최고점을 보았을때 최근 하향세인것을 확인할수 있었음
-    - <img src ='https://user-images.githubusercontent.com/60168331/76542296-22e6a880-64c8-11ea-8059-e5969705e589.PNG'>
+      - <img src ='https://user-images.githubusercontent.com/60168331/76542296-22e6a880-64c8-11ea-8059-e5969705e589.PNG'>
 
 - columns 설명
   - 'code' : 화폐의 코드
@@ -347,14 +355,14 @@
   - 'signedChangePrice' : 부호가 있는 변화금액
   - 'changeRate' : 전일 종가 대비 변화량 (절대값)
   - 'signedChangeRate' : 부호가 있는 변화량
-  <img src ='https://user-images.githubusercontent.com/60168331/76542304-2417d580-64c8-11ea-87ab-c636ebf9bc87.PNG'>
+  - <img src ='https://user-images.githubusercontent.com/60168331/76542304-2417d580-64c8-11ea-87ab-c636ebf9bc87.PNG'>
 
 - 데이터 저장
   - upbit_day.py : mongodb의 upbit_day에 저장됨
   - upbit_day_auto.py : mongodb의 upbit_day_auto에 저장됨
   - upbit_hour.py : mongodb의 upbit_hour에 저장됨
   - upbit_hour_auto.py : mongodb의 upbit_hour_auto에 저장됨
-  <img src='https://user-images.githubusercontent.com/60168331/76542310-24b06c00-64c8-11ea-8024-00ac586d67d8.PNG'>
+  - <img src='https://user-images.githubusercontent.com/60168331/76542310-24b06c00-64c8-11ea-8024-00ac586d67d8.PNG'>
 
 - 프로젝트 회고
   - 업비트에서 respone해주는 형식이 json형식이라 어렵지 않게 한것 같다.
