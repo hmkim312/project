@@ -1,7 +1,6 @@
 # Crawling project
 ## 가상 화폐 가격 Crawling
- <img src="![1](https://user-images.githubusercontent.com/60168331/76542237-0cd8e800-64c8-11ea-9ee7-ad256274bafe.PNG)
-">
+ <img src="https://user-images.githubusercontent.com/60168331/76542237-0cd8e800-64c8-11ea-9ee7-ad256274bafe.PNG">
 
   - 데이터 수집의 개요
 	- 2017년 11월쯤 부터 가상화폐의 투자가 인기몰이를 하여, 많은 사람들이 투자를 하였고 2017년 12월에는 자고 일어나면 모든 가상화폐들이 약 2배 이상 올랐던 적이 있었다.
@@ -12,7 +11,7 @@
    
 
 ## 데이터 수집의 계획 및 주기 작성
-<img src="2.png">
+<img src='https://user-images.githubusercontent.com/60168331/76542699-b9b36500-64c8-11ea-9078-d019ce657fc8.PNG'>
 
 - 업비트
   - 업비트라는 한국 거래소에서 제공하는 데이터로 크롤링을 하였다.
@@ -215,15 +214,15 @@
     - 코드 설명
         
       - call_code() : 현재 거래중인 코인의 코드를 가져 옵니다.
-        <img src ='3.png'>
+        <img src ='https://user-images.githubusercontent.com/60168331/76542275-1b270400-64c8-11ea-9a73-aa273cb9985a.PNG'>
       - upbit_all(count) : 현재 거래중인 모든 코인의 가격(한화)정보를 가져옵니다.
-       <img src = '4.png'>
+       <img src = 'https://user-images.githubusercontent.com/60168331/76542702-ba4bfb80-64c8-11ea-8432-a0c144889fee.PNG'>
         - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
         - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
         - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
         - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
       - upbit_coin(code, coin_englingsh_name, count) : 지정한 한개의 코인의 가격을 가져옵니다.
-         <img src = '5.png'>
+         <img src = 'https://user-images.githubusercontent.com/60168331/76542703-bae49200-64c8-11ea-8544-515c11371013.PNG'>
         - code : call_code()의 market(code_name)을 지정하여 입력합니다.
         - coin_englingsh_name : call_code()의 englingsh_name을 지정하여 입력합니다.
         - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
@@ -325,11 +324,11 @@
 
     - 코드 설명
       - upbit_all(count) : 함수가 실행되면 업비트의 모든 코인의 가격정보를 가져옴
-      - <img src='8.png'>
+      - <img src='https://user-images.githubusercontent.com/60168331/76542306-2417d580-64c8-11ea-92ee-d21e9bc55bc9.PNG'>
         - count : 가져올 데이터의 갯수를 입력
     - EDA
       - 일일 최고점을 보았을때 최근 하향세인것을 확인할수 있었음
-    - <img src ='6.png'>
+    - <img src ='https://user-images.githubusercontent.com/60168331/76542296-22e6a880-64c8-11ea-8059-e5969705e589.PNG'>
 
 - columns 설명
   - 'code' : 화폐의 코드
@@ -348,14 +347,14 @@
   - 'signedChangePrice' : 부호가 있는 변화금액
   - 'changeRate' : 전일 종가 대비 변화량 (절대값)
   - 'signedChangeRate' : 부호가 있는 변화량
-  <img src ='7.png'>
+  <img src ='https://user-images.githubusercontent.com/60168331/76542304-2417d580-64c8-11ea-87ab-c636ebf9bc87.PNG'>
 
 - 데이터 저장
   - upbit_day.py : mongodb의 upbit_day에 저장됨
   - upbit_day_auto.py : mongodb의 upbit_day_auto에 저장됨
   - upbit_hour.py : mongodb의 upbit_hour에 저장됨
   - upbit_hour_auto.py : mongodb의 upbit_hour_auto에 저장됨
-  <img src='9.png'>
+  <img src='https://user-images.githubusercontent.com/60168331/76542310-24b06c00-64c8-11ea-8024-00ac586d67d8.PNG'>
 
 - 프로젝트 회고
   - 업비트에서 respone해주는 형식이 json형식이라 어렵지 않게 한것 같다.
