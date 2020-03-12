@@ -334,35 +334,36 @@
       - upbit_all(count) : 함수가 실행되면 업비트의 모든 코인의 가격정보를 가져옴
       - <img src='https://user-images.githubusercontent.com/60168331/76542306-2417d580-64c8-11ea-92ee-d21e9bc55bc9.PNG'>
         - count : 가져올 데이터의 갯수를 입력
+
+    - columns 설명
+      - 'code' : 화폐의 코드
+      - 'candleDateTime' : 국제 표준시
+      - 'candleDateTimeKst' : 한국시
+      - 'openingPrice' : 시가
+      - 'highPrice' : 고가
+      - 'lowPrice' : 저가
+      - 'tradePrice' : 현재가격정보
+      - 'candleAccTradeVolume' : 누적체결량
+      - 'candleAccTradePrice' :  누적체결대금
+      - 'timestamp' : Unix 타임스탬프, 1970년 1월1일부터 얼마나 지났는지에 대한것
+      - 'prevClosingPrice' : 전일 종가 (UTC 0기준)
+      - 'change' : 전일 종가 대비 변화금액의 여부 (RISE 오름, EVEN 변화없음, FALL떨어짐)
+      - 'changePrice' : : 전일 종가 대비 변화금액 (절대값)
+      - 'signedChangePrice' : 부호가 있는 변화금액
+      - 'changeRate' : 전일 종가 대비 변화량 (절대값)
+      - 'signedChangeRate' : 부호가 있는 변화량
+      - <img src ='https://user-images.githubusercontent.com/60168331/76542304-2417d580-64c8-11ea-87ab-c636ebf9bc87.PNG'>
+  
+    - 데이터 저장
+      - upbit_day.py : mongodb의 upbit_day에 저장됨
+      - upbit_day_auto.py : mongodb의 upbit_day_auto에 저장됨
+      - upbit_hour.py : mongodb의 upbit_hour에 저장됨
+      - upbit_hour_auto.py : mongodb의 upbit_hour_auto에 저장됨
+      - <img src='https://user-images.githubusercontent.com/60168331/76542310-24b06c00-64c8-11ea-8024-00ac586d67d8.PNG'>
+    
     - EDA
       - 일일 최고점을 보았을때 최근 하향세인것을 확인할수 있었음
       - <img src ='https://user-images.githubusercontent.com/60168331/76542296-22e6a880-64c8-11ea-8059-e5969705e589.PNG'>
-
-- columns 설명
-  - 'code' : 화폐의 코드
-  - 'candleDateTime' : 국제 표준시
-  - 'candleDateTimeKst' : 한국시
-  - 'openingPrice' : 시가
-  - 'highPrice' : 고가
-  - 'lowPrice' : 저가
-  - 'tradePrice' : 현재가격정보
-  - 'candleAccTradeVolume' : 누적체결량
-  - 'candleAccTradePrice' :  누적체결대금
-  - 'timestamp' : Unix 타임스탬프, 1970년 1월1일부터 얼마나 지났는지에 대한것
-  - 'prevClosingPrice' : 전일 종가 (UTC 0기준)
-  - 'change' : 전일 종가 대비 변화금액의 여부 (RISE 오름, EVEN 변화없음, FALL떨어짐)
-  - 'changePrice' : : 전일 종가 대비 변화금액 (절대값)
-  - 'signedChangePrice' : 부호가 있는 변화금액
-  - 'changeRate' : 전일 종가 대비 변화량 (절대값)
-  - 'signedChangeRate' : 부호가 있는 변화량
-  - <img src ='https://user-images.githubusercontent.com/60168331/76542304-2417d580-64c8-11ea-87ab-c636ebf9bc87.PNG'>
-
-- 데이터 저장
-  - upbit_day.py : mongodb의 upbit_day에 저장됨
-  - upbit_day_auto.py : mongodb의 upbit_day_auto에 저장됨
-  - upbit_hour.py : mongodb의 upbit_hour에 저장됨
-  - upbit_hour_auto.py : mongodb의 upbit_hour_auto에 저장됨
-  - <img src='https://user-images.githubusercontent.com/60168331/76542310-24b06c00-64c8-11ea-8024-00ac586d67d8.PNG'>
 
 - 프로젝트 회고
   - 업비트에서 respone해주는 형식이 json형식이라 어렵지 않게 한것 같다.
