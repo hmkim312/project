@@ -1,6 +1,6 @@
 # Crawling project
 ## 가상 화폐 가격 Crawling
-<img src = 'https://user-images.githubusercontent.com/60168331/76885088-0da3bc80-68c2-11ea-8cd7-6b38fd87c11a.png'>
+<img src = 'https://user-images.githubusercontent.com/60168331/76886645-755b0700-68c4-11ea-8ef3-3e93762f404d.png'>
 
   - 데이터 수집의 개요
 	- 2017년 11월쯤 부터 가상화폐의 투자가 인기몰이를 하여, 많은 사람들이 투자를 하였고 2017년 12월에는 자고 일어나면 모든 가상화폐들이 약 2배 이상 올랐던 적이 있었다.
@@ -9,7 +9,7 @@
     - 하지만 2018년 1월쯤부터 가격은 폭락하기 시작, 많은 사람들이 엄청난 손해를 보게 되었으며, 그때부터 소위 '존버'라는 단어가 유행되기 시작했다.
     - 그 당시 많은 손해를 본 사람중 한명으로써 비트코인의 가격을 조금이라도 예측할 수 있었다면 (물론 힘들겠지만) 최소한 엄청난 손해는 보지 않았을 것으로 생각하였다.
     - 일단 데이터부터 있어야, 무언가를 예측해볼수 있을것으로 판단되어 가상화폐를 크롤링해보도록 하였다.
-<img src = 'https://user-images.githubusercontent.com/60168331/76885224-3f1c8800-68c2-11ea-83b5-a403c20a52a9.png'>
+    - <img src = 'https://user-images.githubusercontent.com/60168331/76885224-3f1c8800-68c2-11ea-83b5-a403c20a52a9.png'>
    
 
 ## 데이터 수집의 계획 및 주기 작성
@@ -205,7 +205,7 @@
 
     - EDA
       - 매 30분 단위의 3월 14일 ~ 3월 17일까지의 비트코인의 가격을 보았을때 하향세이였다가, 살짝 반등한것을 알수있었음
-      - <img src ='https://user-images.githubusercontent.com/60168331/76884347-eac4d880-68c0-11ea-8456-3fccf01ec396.png'>
+    - <img src ='https://user-images.githubusercontent.com/60168331/76886859-b4895800-68c4-11ea-9427-b5a467369d74.png'>
 
 - 프로젝트 회고
   - 빗썸에서의 크롤링은 scrapy로 사용해 본것에 만족한다.
