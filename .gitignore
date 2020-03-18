@@ -1,0 +1,8 @@
+.DS_Stroe
+Thumbs.db
+db.json
+*.log
+node_modules/
+public/
+.deploy*/
+.ipynb_checkpoints
