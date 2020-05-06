@@ -2,19 +2,20 @@
 <img src = "https://user-images.githubusercontent.com/60168331/81139814-1bacba00-8fa2-11ea-81ed-96722797b06b.png">
 
 ## 00. Naver_myplace
->- 실제 방문한 음식점, 카페등을 리뷰하는 플랫폼
+>- 실제 방문한 음식점을 영수증 기반으로 인증하여 리뷰를 작성하는 플랫폼
    
 ## 01. Dataset 개요
 >- 리뷰 의 수 : 약 7200건
 >- 음식점의 수 : 약 320곳
 
-## 02. Toy project의 이유
->- 한국어 감정 분석을 연습하기 위해
+## 02. Toy project의 진행 이유
+>- FastCampus의 Machin Learning project를 진행하기에 앞서 자연어 분석에 대해 공부하고자 연휴기간중 (2020년 4월 30일 ~ 5월 5일)에 진행하였음
 
 ## 03. Projec 내용
->- Naver_myplace의 리뷰를 크롤링하여, 별점 3점 이하는 negative, 이상은 positive로 기준치를 잡음
->- 이후 한국어 형태소 분석기를 사용하여 LGBM, Randomforest, DecisionTree를 이용하여 분류를 진행하였고 Valdation Accuracy는 LGMB이 약 0.9 정도로 높은 확률을 보였다.
->- 테스트에서는 0.82정도로 높지 않은 Accuracy 수치를 보였으며, 실제 문장을 넣고 확인해본 결과 negative를 positive로 예측하는 등의 좋지 않은 성능을 보였다.
+>- Naver_myplace의 리뷰를 셀레니움을 이용하여 크롤링하였으며, 별점 3점 이하는 negative, 이상은 positive로 기준치를 잡음
+>- 이후 한국어 형태소 분석기인 konlpy를 사용하여 형태소 분석을 하였음
+>- LGBM, Randomforest, DecisionTree를 이용하여 분류를 진행하였고 Valdation Accuracy는 LGMB이 약 0.9 정도로 높은 수치를 보였음
+>- 테스트에서는 0.82정도로 높지 않은 Accuracy 수치를 보였으며, test data의 문장을 넣고 확인해본 결과 negative를 positive로 예측하는 등의 좋지 않은 성능을 보였다.
 >- 다만, 다른 문장 Ex ('싫어요', '별로에요', '맛 없어요', '친절해요')은 그런대로  negative와 positive를 구별해 내었다 (LGBM 기준)
 
 ## 04. 프로젝트 회고
@@ -28,4 +29,4 @@
 #### NLT
 >- https://github.com/hmkim312/project/blob/master/NLT%20Toyproject/project01_Review_sentiment_analysis_by_naver_myplace.ipynb
 #### Crawling
->-https://github.com/hmkim312/project/blob/master/NLT%20Toyproject/crawling03_naver_myplace_review_crawling.ipynb
+>- https://github.com/hmkim312/project/blob/master/NLT%20Toyproject/crawling03_naver_myplace_review_crawling.ipynb
