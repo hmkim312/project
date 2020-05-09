@@ -1,12 +1,12 @@
 # Naver_myplace review Emotion analysis (toy project)
-<img src = "https://user-images.githubusercontent.com/60168331/81139814-1bacba00-8fa2-11ea-81ed-96722797b06b.png">
+<img src = "https://user-images.githubusercontent.com/60168331/81460645-aaf3e080-91e1-11ea-8ed6-e86192db5ace.png">
 
 ## 00. Naver_myplace
 >- 실제 방문한 음식점을 영수증 기반으로 인증하여 리뷰를 작성하는 플랫폼
    
 ## 01. Dataset 개요
->- 리뷰 의 수 : 약 7200건
->- 음식점의 수 : 약 320곳
+>- 리뷰 의 수 : 약 8000건
+>- 음식점의 수 : 약 350곳
 
 ## 02. Toy project의 진행 이유
 >- FastCampus의 Machin Learning project를 진행하기에 앞서 자연어 분석에 대해 공부하고자 연휴기간중 (2020년 4월 30일 ~ 5월 5일)에 진행하였음
