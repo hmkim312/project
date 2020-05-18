@@ -26,7 +26,7 @@
 >- 추후 천천히 데이터를 더욱 수집하여 (다른곳의 리뷰 등) 발전시켜봐야 겠다.
 
 ## 05.Code
-#### NLT
->- https://github.com/hmkim312/project/blob/master/NLT%20Toyproject/project01_Review_sentiment_analysis_by_naver_myplace.ipynb
+#### NLP
+>- https://github.com/hmkim312/project/blob/master/NLP%20Toyproject/project01_Review_sentiment_analysis_by_naver_myplace.ipynb
 #### Crawling
->- https://github.com/hmkim312/project/blob/master/NLT%20Toyproject/crawling03_naver_myplace_review_crawling.ipynb
+>- https://github.com/hmkim312/project/blob/master/NLP%20Toyproject/crawling03_naver_myplace_review_crawling.ipynb
