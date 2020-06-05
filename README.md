@@ -20,3 +20,8 @@ https://github.com/hmkim312/project/blob/master/crawling/upbit_crawling/presenta
 >- project period : 2020.04.30 ~ 2020.05.05
 >- Project topic : naver_myplace review Emotion analysis 
 >- portfolio URL : https://github.com/hmkim312/project/blob/master/NLP%20Toyproject/presentation.md
+
+### 5. Machine Learning Project
+>- project period : 2020.04.30 ~ 2020.05.30
+>- Project topic : Melon Play list competition (recommendation system)
+>- portfolio URL : https://github.com/hmkim312/project/blob/master/Machine%20Learning/kakao_ppt%20%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf
