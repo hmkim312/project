@@ -1,3 +1,5 @@
+[![HitCount](http://hits.dwyl.com/hmkim312/project.svg)](http://hits.dwyl.com/hmkim312/project)
+
 ## Fast campus Data scientist school project
 ### 1. EDA project
 >- project period : 2020.02.19 ~ 2020.02.21
