@@ -27,156 +27,157 @@
     - <img src ='https://user-images.githubusercontent.com/60168331/76882755-7426db80-68be-11ea-8cff-988f4e531f51.PNG'>
   
   - items.py
-    - ```python
-        import scrapy
-        class BithumbItem(scrapy.Item):
-            date = scrapy.Field()
-            coin_names = scrapy.Field()
-            coin_codes = scrapy.Field()
-            coin_prices = scrapy.Field()
-            price_changes = scrapy.Field()
-            transaction_volumes = scrapy.Field()
-            market_capitalizations = scrapy.Field()
-        ```
+    ```python
+    import scrapy
+    class BithumbItem(scrapy.Item):
+        date = scrapy.Field()
+        coin_names = scrapy.Field()
+        coin_codes = scrapy.Field()
+        coin_prices = scrapy.Field()
+        price_changes = scrapy.Field()
+        transaction_volumes = scrapy.Field()
+        market_capitalizations = scrapy.Field()
+      ```
     
   - Spider.py
-    - ```python
-        import pandas as pd  # version - 0.25.1
-        import numpy as np  # version - 1.16.5
-        import requests  # version - 2.22.0
-        import pymongo  # version - 2.8.1
-        from bs4 import BeautifulSoup  # version - 4.8.0
-        from datetime import datetime
-        import scrapy
-        import os
-        import json
-        import scrapy
-        import time
+     ```python
+      import pandas as pd  # version - 0.25.1
+      import numpy as np  # version - 1.16.5
+      import requests  # version - 2.22.0
+      import pymongo  # version - 2.8.1
+      from bs4 import BeautifulSoup  # version - 4.8.0
+      from datetime import datetime
+      import scrapy
+      import os
+      import json
+      import scrapy
+      import time
 
-        from bithumb.items import BithumbItem
+      from bithumb.items import BithumbItem
 
-        # 식별자 변수명은 지정된 변수명을 사용해야함
-        class Spider(scrapy.Spider):
-            # 거래가 실시간으로 바뀌기 때문에 크롤링할때마다 연결해주어야함
-            name = 'BithumbSpider'
-            # 1. 웹페이지 연결
-            allow_domain = ['https://www.bithumb.com/']
-            start_urls = ['https://www.bithumb.com/']
+      # 식별자 변수명은 지정된 변수명을 사용해야함
+      class Spider(scrapy.Spider):
+          # 거래가 실시간으로 바뀌기 때문에 크롤링할때마다 연결해주어야함
+          name = 'BithumbSpider'
+          # 1. 웹페이지 연결
+          allow_domain = ['https://www.bithumb.com/']
+          start_urls = ['https://www.bithumb.com/']
 
-            def __init__(self, highprice, lowprice, name, *args, **kwargs):
-                self.highprice = highprice
-                self.lowprice = lowprice
-                self.name = name
-                super(Spider, self).__init__(*args, **kwargs)
+          def __init__(self, highprice, lowprice, name, *args, **kwargs):
+              self.highprice = highprice
+              self.lowprice = lowprice
+              self.name = name
+              super(Spider, self).__init__(*args, **kwargs)
 
-            def parse(self, response):
-                item = BithumbItem()
-                # 실행시간 확인
-                date = time.strftime('%Y-%m-%d-%H:%M:%S', time.localtime(time.time()))
+          def parse(self, response):
+              item = BithumbItem()
+              # 실행시간 확인
+              date = time.strftime('%Y-%m-%d-%H:%M:%S', time.localtime(time.time()))
 
-                # 3. 코인 이름 가져오기
-                selector = '//*[@id="sise_list"]/tbody/tr/td[1]/p/a/strong/text()'
-                coin_names = response.xpath(selector).extract()
+              # 3. 코인 이름 가져오기
+              selector = '//*[@id="sise_list"]/tbody/tr/td[1]/p/a/strong/text()'
+              coin_names = response.xpath(selector).extract()
 
-                # 4. 코인 코드 가져오기
-                selector = '//*[@id="sise_list"]/tbody/tr/td[1]/p/a/span/text()'
-                coin_codes = response.xpath(selector).extract()
+              # 4. 코인 코드 가져오기
+              selector = '//*[@id="sise_list"]/tbody/tr/td[1]/p/a/span/text()'
+              coin_codes = response.xpath(selector).extract()
 
-                # 5. 전체 가격가져오기
-                selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[2]/strong/text()'
-                coin_prices = response.xpath(selector).extract()
+              # 5. 전체 가격가져오기
+              selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[2]/strong/text()'
+              coin_prices = response.xpath(selector).extract()
 
-                # 6. 변동률 가져오기 (전일 대비)
-                selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[3]/div/strong/text()'
-                price_changes = response.xpath(selector).extract()
+              # 6. 변동률 가져오기 (전일 대비)
+              selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[3]/div/strong/text()'
+              price_changes = response.xpath(selector).extract()
 
-                # 7. 거래량 가져오기(24th, 단위 백만)
-                selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[4]/span/text()'
-                transaction_volumes = response.xpath(selector).extract()
+              # 7. 거래량 가져오기(24th, 단위 백만)
+              selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[4]/span/text()'
+              transaction_volumes = response.xpath(selector).extract()
 
-                # 8. 시가총액 가져오기(단위 억)
-                selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[5]/strong/text()'
-                market_capitalizations = response.xpath(selector).extract()
+              # 8. 시가총액 가져오기(단위 억)
+              selector = '/html/body/div[2]/section/div[1]/div[4]/table/tbody/tr/td[5]/strong/text()'
+              market_capitalizations = response.xpath(selector).extract()
 
-                # 9. 리스트 데이터 정리
-                for item in zip(date, coin_names, coin_codes, coin_prices, price_changes,
-                                transaction_volumes, market_capitalizations):
-                    item = {
-                        'date': date,
-                        'coin_names': item[1].strip(),
-                        'coin_codes': item[2].strip(),
-                        'coin_prices': item[3].replace('원', '').replace(',', '').strip(),
-                        'price_changes': item[4].replace('원', '').replace(',', '').strip(),
-                        'transaction_volumes': item[5].replace('원', '').replace('≈', '').replace(',', '').strip()[:-6],
-                        'market_capitalizations': item[6].replace('조', '').replace('억', '').replace(' ', ''),
-                    }
-                    yield item
-        ```
+              # 9. 리스트 데이터 정리
+              for item in zip(date, coin_names, coin_codes, coin_prices, price_changes,
+                              transaction_volumes, market_capitalizations):
+                  item = {
+                      'date': date,
+                      'coin_names': item[1].strip(),
+                      'coin_codes': item[2].strip(),
+                      'coin_prices': item[3].replace('원', '').replace(',', '').strip(),
+                      'price_changes': item[4].replace('원', '').replace(',', '').strip(),
+                      'transaction_volumes': item[5].replace('원', '').replace('≈', '').replace(',', '').strip()[:-6],
+                      'market_capitalizations': item[6].replace('조', '').replace('억', '').replace(' ', ''),
+                  }
+                  yield item
+      ```
 
   - mongodb.py
-    - ```python
-        import pymongo
-        client = pymongo.MongoClient('mongodb://{id}:{pw}@{ip}:27017')
+    ```python
+    import pymongo
+    client = pymongo.MongoClient('mongodb://{id}:{pw}@{ip}:27017')
 
-        # db 생성
-        db = client.bithumb
+    # db 생성
+    db = client.bithumb
 
-        # 컬렉션 생성
-        collection = db.coins
-        ```
+    # 컬렉션 생성
+    collection = db.coins
+    ```
+    
   - pipelines.py
-    - ```python
-        import json
-        import requests
-        from.mongodb import collection
+    ```python
+    import json
+    import requests
+    from.mongodb import collection
 
-        class BithumbPipeline(object):
+    class BithumbPipeline(object):
+        
+        # 생성자 함수
+        def __init__(self):#,Spider):
+            self.webhook_url = 'url'
+
+        # 아규먼트 가져오기
+        def open_spider(self, Spider):
+            self.highprice = Spider.highprice
+            self.lowprice = Spider.lowprice
+            self.name = Spider.name
+        
+        # 슬랙메세지 전송
+        def send_msg(self, msg):        
+            payload = {
+                'channel' : '#coin',
+                'username' : 'coin_highrow_bot',
+                'icon_emoji' : ':moneybag:',
+                'text' : msg,
+            }
+            # webhook_url로 json.dumps 형태의 페이로드를 전송하는 코드
+            requests.post(self.webhook_url, json.dumps(payload))
+            time.sleep(1)
             
-            # 생성자 함수
-            def __init__(self):#,Spider):
-                self.webhook_url = 'url'
-
-            # 아규먼트 가져오기
-            def open_spider(self, Spider):
-                self.highprice = Spider.highprice
-                self.lowprice = Spider.lowprice
-                self.name = Spider.name
+        # mongodb저장 및 슬랙전송 코드   
+        def process_item(self, item, Spider):
+            # 몽고디비에 저장하는 코드 추가
+            data ={
+                'date' : item['date'],
+                'coin_names' : item['coin_names'],
+                'coin_codes' : item['coin_codes'],
+                'coin_prices' : item['coin_prices'],
+                'price_changes' : item['price_changes'],
+                'transaction_volumes' :item['transaction_volumes'],
+                'market_capitalizations' : item['market_capitalizations'],
+            }
             
-            # 슬랙메세지 전송
-            def send_msg(self, msg):        
-                payload = {
-                    'channel' : '#coin',
-                    'username' : 'coin_highrow_bot',
-                    'icon_emoji' : ':moneybag:',
-                    'text' : msg,
-                }
-                # webhook_url로 json.dumps 형태의 페이로드를 전송하는 코드
-                requests.post(self.webhook_url, json.dumps(payload))
-                time.sleep(1)
-                
-            # mongodb저장 및 슬랙전송 코드   
-            def process_item(self, item, Spider):
-                # 몽고디비에 저장하는 코드 추가
-                data ={
-                    'date' : item['date'],
-                    'coin_names' : item['coin_names'],
-                    'coin_codes' : item['coin_codes'],
-                    'coin_prices' : item['coin_prices'],
-                    'price_changes' : item['price_changes'],
-                    'transaction_volumes' :item['transaction_volumes'],
-                    'market_capitalizations' : item['market_capitalizations'],
-                }
-                
-                collection.insert(data)
+            collection.insert(data)
 
-                if float(self.highprice) < float(item['coin_prices']) and self.name == item['coin_names'] :
-                    self.send_msg(f"고가 알림 : {item['coin_names']} 가격은 {item['coin_prices']}원 입니다. 알림 설정 금액은 {self.highprice}원 입니다.")
-                    
-                if float(self.lowprice) > float(item['coin_prices']) and self.name == item['coin_names'] :             
-                    self.send_msg(f"저가 알림 : {item['coin_names']} 가격은 {item['coin_prices']}원 입니다. 알림 설정 금액은 {self.lowprice}원 입니다.")
+            if float(self.highprice) < float(item['coin_prices']) and self.name == item['coin_names'] :
+                self.send_msg(f"고가 알림 : {item['coin_names']} 가격은 {item['coin_prices']}원 입니다. 알림 설정 금액은 {self.highprice}원 입니다.")
                 
-                return item
-            ```
+            if float(self.lowprice) > float(item['coin_prices']) and self.name == item['coin_names'] :             
+                self.send_msg(f"저가 알림 : {item['coin_names']} 가격은 {item['coin_prices']}원 입니다. 알림 설정 금액은 {self.lowprice}원 입니다.")
+            
+            return item
+    ```
 
     - columns 설명
       - id : mongoDB의 id값(고유값)

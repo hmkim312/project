@@ -19,123 +19,236 @@
 
 - 크롤링 하는 방법
   - 일단위 (upbit_day.py)
-    - ```python
-        import pandas as pd  # version - 0.25.1
-        import numpy as np  # version - 1.16.5
-        import requests  # version - 2.22.0
-        import pymongo  # version - 2.8.1
-        import getpass
+    ```python
+    import pandas as pd  # version - 0.25.1
+    import numpy as np  # version - 1.16.5
+    import requests  # version - 2.22.0
+    import pymongo  # version - 2.8.1
+    import getpass
 
 
-        def call_code():
-            # coin 종류 가져오기
-            url = 'https://api.upbit.com/v1/market/all'
-            response = requests.get(url)
-            datas = response.json()
-            # 데이터 프레임으로 변경
-            df = pd.DataFrame(datas)
-            # market 기준 한화로 변경
-            coins_krw = df[df['market'].str.startswith('KRW')].reset_index(drop=True)
-            return coins_krw
+    def call_code():
+        # coin 종류 가져오기
+        url = 'https://api.upbit.com/v1/market/all'
+        response = requests.get(url)
+        datas = response.json()
+        # 데이터 프레임으로 변경
+        df = pd.DataFrame(datas)
+        # market 기준 한화로 변경
+        coins_krw = df[df['market'].str.startswith('KRW')].reset_index(drop=True)
+        return coins_krw
 
 
-        def upbit_all(count):
-            # 서버 접속 정보 확인
-            ip = input('서버ip를 입력하세요:')
-            id_s = input('서버접속 id를 입력하세요:')
-            pw = getpass.getpass('서버접속 pw를 입력하세요:')
+    def upbit_all(count):
+        # 서버 접속 정보 확인
+        ip = input('서버ip를 입력하세요:')
+        id_s = input('서버접속 id를 입력하세요:')
+        pw = getpass.getpass('서버접속 pw를 입력하세요:')
 
-            # server 연결
-            server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
-            db = server.upbit_day
+        # server 연결
+        server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
+        db = server.upbit_day
 
-            # 마켓 코드 가져오기.
-            url = 'https://api.upbit.com/v1/market/all'
-            response = requests.get(url)
-            datas = response.json()
+        # 마켓 코드 가져오기.
+        url = 'https://api.upbit.com/v1/market/all'
+        response = requests.get(url)
+        datas = response.json()
 
-            # 데이터 프레임으로 변경
-            df = pd.DataFrame(datas)
+        # 데이터 프레임으로 변경
+        df = pd.DataFrame(datas)
 
-            # market 기준 한화로 변경
-            coins_krw = df[df['market'].str.startswith(
-                'KRW')].reset_index(drop=True)
+        # market 기준 한화로 변경
+        coins_krw = df[df['market'].str.startswith(
+            'KRW')].reset_index(drop=True)
 
-            # 데이터프레임을 코드와 네임의 딕셔너리로 변경
-            a = coins_krw['market'].to_dict().values()
-            b = coins_krw['english_name'].to_dict().values()
-            coin_names = dict(zip(a, b))
+        # 데이터프레임을 코드와 네임의 딕셔너리로 변경
+        a = coins_krw['market'].to_dict().values()
+        b = coins_krw['english_name'].to_dict().values()
+        coin_names = dict(zip(a, b))
 
-            # database에 저장(mongodb)
-            for code, name in coin_names.items():
-                collection = db[name]
-                response = requests.get(
-                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
-                    code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
-                datas = response.json()
-                idx = collection.insert(datas)
-                print(code, len(idx), end=" ")
-
-                
-        # 지정한 한개의 코인을 가져오는 함수
-
-        def upbit_coin(code, coin_englingsh_name, count):
-
-            # 서버 접속 정보 확인
-            ip = input('서버ip를 입력하세요:')
-            id_s = input('서버접속 id를 입력하세요:')
-            pw = getpass.getpass('서버접속 pw를 입력하세요:')
-
-            # server 연결
-            server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
-            db = server.upbit_day
-
-            # 지정된 코인 정보 가져오기
+        # database에 저장(mongodb)
+        for code, name in coin_names.items():
+            collection = db[name]
             response = requests.get(
                 f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
                 code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
             datas = response.json()
-
-            # database에 저장(mongodb)
-            collection = db[coin_englingsh_name]
             idx = collection.insert(datas)
             print(code, len(idx), end=" ")
-        ```
+
+            
+    # 지정한 한개의 코인을 가져오는 함수
+
+    def upbit_coin(code, coin_englingsh_name, count):
+
+        # 서버 접속 정보 확인
+        ip = input('서버ip를 입력하세요:')
+        id_s = input('서버접속 id를 입력하세요:')
+        pw = getpass.getpass('서버접속 pw를 입력하세요:')
+
+        # server 연결
+        server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
+        db = server.upbit_day
+
+        # 지정된 코인 정보 가져오기
+        response = requests.get(
+            f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+            code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+        datas = response.json()
+
+        # database에 저장(mongodb)
+        collection = db[coin_englingsh_name]
+        idx = collection.insert(datas)
+        print(code, len(idx), end=" ")
+    ```
     
-    - 시간 단위(upbit_hour.py)
-    - ```python
-        
-        import pandas as pd  # version - 0.25.1
-        import numpy as np  # version - 1.18.1
-        import requests  # version - 2.22.0
-        import pymongo  # version - 2.8.1
-        import getpass
-        import time
+  - 시간 단위(upbit_hour.py)
+    ```python
+    import pandas as pd  # version - 0.25.1
+    import numpy as np  # version - 1.18.1
+    import requests  # version - 2.22.0
+    import pymongo  # version - 2.8.1
+    import getpass
+    import time
+    from datetime import datetime
+    import getpass
+
+
+    def call_code():
+        # coin 종류 가져오기
+        url = 'https://api.upbit.com/v1/market/all'
+        response = requests.get(url)
+        datas = response.json()
+        # 데이터 프레임으로 변경
+        df = pd.DataFrame(datas)
+        # market 기준 한화로 변경
+        coins_krw = df[df['market'].str.startswith('KRW')].reset_index(drop=True)
+        return coins_krw
+
+
+    def upbit_all(count):
+        # 서버 접속 정보 확인
+        ip = input('서버ip를 입력하세요:')
+        id_s = input('서버접속 id를 입력하세요:')
+        pw = getpass.getpass('서버접속 pw를 입력하세요:')
+
+        # server 연결
+        server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
+        db = server.upbit_hour
+
+        # 마켓 코드 가져오기.
+        url = 'https://api.upbit.com/v1/market/all'
+        response = requests.get(url)
+        datas = response.json()
+
+        # 데이터 프레임으로 변경
+        df = pd.DataFrame(datas)
+
+        # market 기준 한화로 변경
+        coins_krw = df[df['market'].str.startswith(
+            'KRW')].reset_index(drop=True)
+
+        # 데이터프레임을 코드와 네임의 딕셔너리로 변경
+        a = coins_krw['market'].to_dict().values()
+        b = coins_krw['english_name'].to_dict().values()
+        coin_names = dict(zip(a, b))
+
+        # database에 저장(mongodb)
+        day = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
+        for code, name in coin_names.items():
+            collection = db[name]
+            response = requests.get(
+                f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
+                code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
+            datas = response.json()
+            idx = collection.insert(datas)
+            print(code, len(idx), end=" ")
+
+    # 지정한 한개의 코인을 가져오는 함수
+
+    def upbit_coin(code, coin_englingsh_name, count):
+
+        # 서버 접속 정보 확인
+        ip = input('서버ip를 입력하세요:')
+        id_s = input('서버접속 id를 입력하세요:')
+        pw = getpass.getpass('서버접속 pw를 입력하세요:')
+
+        # server 연결
+        server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
+        db = server.upbit_hour
+
+        # 지정된 코인 정보 가져오기
+        day = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
+        response = requests.get(
+            f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
+            code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
+        datas = response.json()
+
+        # database에 저장(mongodb)
+        collection = db[coin_englingsh_name]
+        idx = collection.insert(datas)
+        print(code, len(idx), end=" ")
+
+    # 지정한 한개의 코인을 가져오는 함수
+
+    def upbit_coin(code, coin_englingsh_name, count):
+
+        # 서버 접속 정보 확인
+        ip = input('서버ip를 입력하세요:')
+        id_s = input('서버접속 id를 입력하세요:')
+        pw = getpass.getpass('서버접속 pw를 입력하세요:')
+
+        # server 연결
+        server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
+        db = server.upbit_day
+
+        # 지정된 코인 정보 가져오기
+        response = requests.get(
+            f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+            code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+        datas = response.json()
+
+        # database에 저장(mongodb)
+        collection = db[coin_englingsh_name]
+        idx = collection.insert(datas)
+        print(code, len(idx), end=" ")
+    ```
+
+- 코드 설명
+    - call_code() : 현재 거래중인 코인의 코드를 가져 옵니다.
+    - <img src ='https://user-images.githubusercontent.com/60168331/76542275-1b270400-64c8-11ea-9a73-aa273cb9985a.PNG'>
+    - upbit_all(count) : 현재 거래중인 모든 코인의 가격(한화)정보를 가져옵니다.
+        - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
+        - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
+        - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
+        - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
+      
+    - upbit_coin(code, coin_englingsh_name, count) : 지정한 한개의 코인의 가격을 가져옵니다.
+        - code : call_code()의 market(code_name)을 지정하여 입력합니다.
+        - coin_englingsh_name : call_code()의 englingsh_name을 지정하여 입력합니다.
+        - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
+        - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
+        - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
+        - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
+  
+	- 서버에서 자동으로 활동하는 파일
+    	- 시간단위 (upbit_hour_auto.py)
+    	```python
+        import pandas as pd # version - 0.25.1
+        import numpy as np # version - 1.16.5
+        import requests # version - 2.22.0
+        import pymongo # version - 2.8.1
+        from bs4 import BeautifulSoup # version - 4.8.0
         from datetime import datetime
         import getpass
-
-
-        def call_code():
-            # coin 종류 가져오기
-            url = 'https://api.upbit.com/v1/market/all'
-            response = requests.get(url)
-            datas = response.json()
-            # 데이터 프레임으로 변경
-            df = pd.DataFrame(datas)
-            # market 기준 한화로 변경
-            coins_krw = df[df['market'].str.startswith('KRW')].reset_index(drop=True)
-            return coins_krw
+        import time
 
 
         def upbit_all(count):
-            # 서버 접속 정보 확인
-            ip = input('서버ip를 입력하세요:')
-            id_s = input('서버접속 id를 입력하세요:')
-            pw = getpass.getpass('서버접속 pw를 입력하세요:')
 
             # server 연결
-            server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
-            db = server.upbit_hour
+            server = pymongo.MongoClient('mongodb://id:pw@ip:27017/')
+            db = server.upbit_hour_auto
 
             # 마켓 코드 가져오기.
             url = 'https://api.upbit.com/v1/market/all'
@@ -163,170 +276,54 @@
                     code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
                 datas = response.json()
                 idx = collection.insert(datas)
-                print(code, len(idx), end=" ")
-
-        # 지정한 한개의 코인을 가져오는 함수
-
-        def upbit_coin(code, coin_englingsh_name, count):
-
-            # 서버 접속 정보 확인
-            ip = input('서버ip를 입력하세요:')
-            id_s = input('서버접속 id를 입력하세요:')
-            pw = getpass.getpass('서버접속 pw를 입력하세요:')
-
-            # server 연결
-            server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
-            db = server.upbit_hour
-
-            # 지정된 코인 정보 가져오기
-            day = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
-            response = requests.get(
-                f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
-                code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
-            datas = response.json()
-
-            # database에 저장(mongodb)
-            collection = db[coin_englingsh_name]
-            idx = collection.insert(datas)
-            print(code, len(idx), end=" ")
-
-        # 지정한 한개의 코인을 가져오는 함수
-
-        def upbit_coin(code, coin_englingsh_name, count):
-
-            # 서버 접속 정보 확인
-            ip = input('서버ip를 입력하세요:')
-            id_s = input('서버접속 id를 입력하세요:')
-            pw = getpass.getpass('서버접속 pw를 입력하세요:')
-
-            # server 연결
-            server = pymongo.MongoClient(f'mongodb://{id_s}:{pw}@{ip}:27017/')
-            db = server.upbit_day
-
-            # 지정된 코인 정보 가져오기
-            response = requests.get(
-                f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
-                code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
-            datas = response.json()
-
-            # database에 저장(mongodb)
-            collection = db[coin_englingsh_name]
-            idx = collection.insert(datas)
-            print(code, len(idx), end=" ")
+                # print(code, len(idx), end=" ")
+            upbit_all(1)
         ```
 
-    - 코드 설명
-        
-      - call_code() : 현재 거래중인 코인의 코드를 가져 옵니다.
-        - <img src ='https://user-images.githubusercontent.com/60168331/76542275-1b270400-64c8-11ea-9a73-aa273cb9985a.PNG'>
-      - upbit_all(count) : 현재 거래중인 모든 코인의 가격(한화)정보를 가져옵니다.
-        - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
-        - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
-        - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
-        - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
-      
-      - upbit_coin(code, coin_englingsh_name, count) : 지정한 한개의 코인의 가격을 가져옵니다.
-
-        - code : call_code()의 market(code_name)을 지정하여 입력합니다.
-        - coin_englingsh_name : call_code()의 englingsh_name을 지정하여 입력합니다.
-        - count : 입력값으로 가져올 데이터의 갯수를 입력합니다.
-        - ip = input('서버ip를 입력하세요:') : 몽고디비에 연결할 서버ip를 입력합니다.
-        - id_s = input('서버접속 id를 입력하세요:') : 서버접속의 id를 입력합니다. 
-        - pw = getpass.getpass('서버접속 pw를 입력하세요:') : 서버접속의 password를 입력합니다.
-  
-	- 서버에서 자동으로 활동하는 파일
-    	- 시간단위 (upbit_hour_auto.py)
-    	- ```python
-                import pandas as pd # version - 0.25.1
-                import numpy as np # version - 1.16.5
-                import requests # version - 2.22.0
-                import pymongo # version - 2.8.1
-                from bs4 import BeautifulSoup # version - 4.8.0
-                from datetime import datetime
-                import getpass
-                import time
-
-
-                def upbit_all(count):
-
-                    # server 연결
-                    server = pymongo.MongoClient('mongodb://id:pw@ip:27017/')
-                    db = server.upbit_hour_auto
-
-                    # 마켓 코드 가져오기.
-                    url = 'https://api.upbit.com/v1/market/all'
-                    response = requests.get(url)
-                    datas = response.json()
-
-                    # 데이터 프레임으로 변경
-                    df = pd.DataFrame(datas)
-
-                    # market 기준 한화로 변경
-                    coins_krw = df[df['market'].str.startswith(
-                        'KRW')].reset_index(drop=True)
-
-                    # 데이터프레임을 코드와 네임의 딕셔너리로 변경
-                    a = coins_krw['market'].to_dict().values()
-                    b = coins_krw['english_name'].to_dict().values()
-                    coin_names = dict(zip(a, b))
-
-                    # database에 저장(mongodb)
-                    day = str(time.strftime('%Y-%m-%d', time.localtime(time.time())))
-                    for code, name in coin_names.items():
-                        collection = db[name]
-                        response = requests.get(
-                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/minutes/60?\
-                            code=CRIX.UPBIT.{code}&count={count}&to={day}T23:59:59Z&')
-                        datas = response.json()
-                        idx = collection.insert(datas)
-                        # print(code, len(idx), end=" ")
-                    
-            upbit_all(1)
-            ```
         - 일 단위(upbit_day_auto.py)
-        - ```python
-                import pandas as pd # version - 0.25.1
-                import numpy as np # version - 1.16.5
-                import requests # version - 2.22.0
-                import pymongo # version - 2.8.1
-                import getpass
+        ```python
+        import pandas as pd # version - 0.25.1
+        import numpy as np # version - 1.16.5
+        import requests # version - 2.22.0
+        import pymongo # version - 2.8.1
+        import getpass
 
 
-                def upbit_all(count):
-                    
-                    # server 연결
-                    server = pymongo.MongoClient('mongodb://id:pw@ip:27017/')
-                    db = server.upbit_day_auto
+        def upbit_all(count):
+            
+            # server 연결
+            server = pymongo.MongoClient('mongodb://id:pw@ip:27017/')
+            db = server.upbit_day_auto
 
-                    # 마켓 코드 가져오기.
-                    url = 'https://api.upbit.com/v1/market/all'
-                    response = requests.get(url)
-                    datas = response.json()
+            # 마켓 코드 가져오기.
+            url = 'https://api.upbit.com/v1/market/all'
+            response = requests.get(url)
+            datas = response.json()
 
-                    # 데이터 프레임으로 변경
-                    df = pd.DataFrame(datas)
+            # 데이터 프레임으로 변경
+            df = pd.DataFrame(datas)
 
-                    # market 기준 한화로 변경
-                    coins_krw = df[df['market'].str.startswith(
-                        'KRW')].reset_index(drop=True)
+            # market 기준 한화로 변경
+            coins_krw = df[df['market'].str.startswith(
+                'KRW')].reset_index(drop=True)
 
-                    # 데이터프레임을 코드와 네임의 딕셔너리로 변경
-                    a = coins_krw['market'].to_dict().values()
-                    b = coins_krw['english_name'].to_dict().values()
-                    coin_names = dict(zip(a, b))
+            # 데이터프레임을 코드와 네임의 딕셔너리로 변경
+            a = coins_krw['market'].to_dict().values()
+            b = coins_krw['english_name'].to_dict().values()
+            coin_names = dict(zip(a, b))
 
-                    # database에 저장(mongodb)
-                    for code, name in coin_names.items():
-                        collection = db[name]
-                        response = requests.get(
-                            f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
-                            code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
-                        datas = response.json()
-                        idx = collection.insert(datas)
-                        print(code, len(idx), end=" ")
-                        
-                upbit_all(1)
-            ```
+            # database에 저장(mongodb)
+            for code, name in coin_names.items():
+                collection = db[name]
+                response = requests.get(
+                    f'https://crix-api-cdn.upbit.com/v1/crix/candles/days?\
+                    code=CRIX.UPBIT.{code}&count={count}&ciqrandom=1582871221736')
+                datas = response.json()
+                idx = collection.insert(datas)
+                print(code, len(idx), end=" ")
+                
+        upbit_all(1)
+        ```
 
     - 코드 설명
       - upbit_all(count) : 함수가 실행되면 업비트의 모든 코인의 가격정보를 가져옴
