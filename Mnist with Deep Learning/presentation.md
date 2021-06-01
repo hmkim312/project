@@ -1,11 +1,3 @@
----
-title: Mnist Fashion으로 알아보는 Deep Learning
-author: HyunMin Kim
-date: 2021-05-10 00:00:00 0000
-categories: [Data Science, Deep Learning]
-tags: [MLP, CNN, Decision Tree,  Random Forest, Mnist Fashion]
----
-
 # Mnist Fashion으로 알아보는 Deep Learning
 
 ---
