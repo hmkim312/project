@@ -1,8 +1,0 @@
-import pandas as pd == 0.25.1
-import numpy as np == 1.16.5
-import requests == 2.22.0
-import pymongo == 2.8.1
-import getpass
-import time
-from datetime import datetime
-import getpass
