@@ -4,7 +4,7 @@
 ---
 - IBM 데이터 과학자들이 만든 가상의 HR 데이터셋입니다.
 - 1,470명에 대한 35개의 변수가 기록되어 있고, 종속변수는 <b>Attrition</b>, 즉 0 또는 1의 퇴사 여부입니다.
-- Data Source: <https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset>{:target="_blank"}
+- Data Source: <https://www.kaggle.com/pavansubhasht/ibm-hr-analytics-attrition-dataset>
 
 ## 순서
 0. 패키지 import
