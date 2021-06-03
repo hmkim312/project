@@ -683,7 +683,7 @@ print('\nAccuracy: {:.4f}'.format(cnn_model.evaluate(X_valid_cnn, y_valid_one_ho
 cnn_predict = np.argmax(cnn_model.predict(X_test_cnn), axis=-1)
 y_test_cnn = y_test.copy()
 y_test_cnn['class'] = cnn_predict
-y_test_cnn.to_csv('./Fashion_MNIST/keyonbit_cnn_test.csv', index = False)
+y_test_cnn.to_csv('./Fashion_MNIST/cnn_test.csv', index = False)
 ```
 - 마지막으로 CNN의 모델로 X_test 데이터를 예측 한뒤 cnn_test.csv에 저장합니다.
 
