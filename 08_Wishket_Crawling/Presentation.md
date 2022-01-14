@@ -3,7 +3,7 @@
 
 ### 1) 크롤링 동기
 - **위시켓** <https://www.wishket.com/>은 개발, 디자인 등의 프로젝트를 중계해주는 플랫폼이다.
-- 클라이언트는 진행할 프로젝트에 대해 정보를 적고, 파트너는 자신이 할수있는 프로젝트를 확인하여 지원하는 방식이다.
+- 클라이언트는 진행할 프로젝트를 등록하고, 파트너는 자신이 할수있는 프로젝트를 확인하여 지원하는 방식이다.
 - 파트너의 경우 위시켓에서 매일 오후 5시에 자신이 선택한 프로젝트 분야에 맞춰 이메일을 보내주는 서비스를 진행하고 있으나, 내가 설정한 키워드만 골라서 볼수는 없었다.
 - 위와 같은 불편함을 해소하기 위해 위시켓에 등록된 파트너 모집 진행중인 프로젝트 중 내가 설정한 키워드만 볼수 있게 크롤링을 해보기로 하였다.
 - 위와 같이 크롤링된 프로젝트 중 내가 지원할수 있는 프로젝트가 있는지 체크를 하려고 한다.
@@ -12,9 +12,9 @@
 
 
 ### 2) 크롤링 전 **robots.txt** 확인
-- 웹페이지를 서비스하는 회사에서는 1)웹서버의 과부하 2)무단 자산(데이터) 취득의 이슈 떄문dp 자신의 페이지를 무단으로 크롤링해가는것을 좋아하지 않는다.
+- 웹페이지를 서비스하는 회사에서는 1)웹서버의 과부하 2)무단 자산(데이터) 취득의 이슈 때문에 자신의 페이지를 무단으로 크롤링해가는것을 좋아하지 않는다.
 - 보통 웹페이지에 robots.txt라는 크롤링에 대한 허용사항을 명시해놓고 있으며 웹페에지를 크롤링하기전에 허용하고 있는지 확인 후 진행하는 것이 좋다.
-- **위시켓**의 robots.txt를 확인해본 결과 project 라는 url은 크롤링을 허용하고 있었기 때문에 감사한 마음으로 프로젝트를 크롤링 하기로 한다.
+- **위시켓**의 robots.txt를 확인해본 결과 project의 url은 크롤링을 허용하고 있었기 때문에 감사한 마음으로 크롤링 하기로 한다.
 <img src="https://user-images.githubusercontent.com/60168331/149541784-05d2d7be-c285-4d23-9e7d-856df36e84f0.png">
 
 
@@ -22,15 +22,15 @@
 - 정적 페이지 : 미리 웹서버에 저장된 내용을 URL에 따라서 보여주는 방식으로, URL이 변경되면 미리 저장된 정보를 보여준다.
 - 동적 페이지 : 웹페이지의 정보를 불러와도 URL이 바뀌지 않는 페이지. 쇼핑몰에서 *더보기*를 눌러도 URl은 변경되지 않는 페이지
 - 크롤링은 동적 페이지보다는 정적 페이지가 더 쉽다. URL 양식에 맞춰 웹서버에 query를 보내면 내가 원하는 페이지가 return 되기 떄문이다.
-- 위시켓의 URL을 확인해보면 처음에는 정적페이지인것 처럼 보인다. url의 query를 변경하면 페이지의 내용도 바뀌었기 때문이다. 그래서 Beautifulsoup으로 크롤링해보았으나, html이 제대로 파싱되지 않았다. 이는 프로젝트를 보여주는 부분만 동적 페이지인것으로 확인되었기 떄문에 셀레니움을 사용하기로 했다.
+- 위시켓의 URL을 확인해보면 처음에는 정적 페이지인것 처럼 보인다. url의 query를 변경하면 페이지의 내용도 바뀌었기 때문이다. 그래서 Beautifulsoup으로 크롤링해보았으나, html이 제대로 파싱되지 않았다. 이는 프로젝트를 보여주는 부분만 동적 페이지인것으로 확인되었기 떄문에 셀레니움을 사용하기로 했다.
 
 ### 4) query 확인
 
 ```python
-url = 'https://www.wishket.com/project/?text_search_type=all&search_text=&project_min_budget=&project_max_budget=&project_min_term=&project_max_term=&project_min_launch_date=&project_max_launch_date=&inhouse_project_min_budget=&inhouse_project_max_budget=&order_by=default&page=1'
+url = url = f'https://www.wishket.com/project/?hide_close_project=hide_close_project&order_by=submit&page=1&search_text={keyword}
 ```
-
-- order_by :  *order_by*를 *sumit*으로 바꾸면 최신 등록된 프로젝트를 볼수있다.
+- hide_close_project : 마감된 프로젝트는 보이지 않게 한다.
+- order_by : *order_by*를 *sumit*으로 바꾸면 최신 등록된 프로젝트를 볼수있다.
 - search_text : 지정한 키워드를 *search_text*의 value로 query를 요청하면 해당 키워드만 가진 프로젝트 정보를 리턴 받는다.
 - page : 기본 1페이지부터 시작하며 키워드를 요청한 내용이 많을수록 N개의 페이지로 이루어진다.
 
