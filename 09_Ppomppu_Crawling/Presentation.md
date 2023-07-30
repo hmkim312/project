@@ -40,14 +40,15 @@
 
 
 1. URL을 통해 서버에 데이터를 요청 한다.
-  - URL에 요청을 하면 서버에서는 해당 URL에 맞는 웹페이지를 Response 해준다.
-2. response 받은 문서에서 HTML을 파싱한다.
-  - HTML 문서를 해석하고 분석하여 문서의 구조와 내용을 이해하는 과정 이다.
+  - URL에 요청을 하면 서버에서는 해당 URL에 맞는 웹페이지를 Response 해준다
+2. response 받은 웹페이지에서 HTML을 파싱한다.
+  - HTML 파싱이란 HTML 문서의 구조와 내용을 이해하는 과정 이다.
+  - 나에게 필요한 데이터가 있는 HTML 부분을 가져온다.
 3. 데이터를 크롤링 한다.
-  - 크롤링하기로 한 데이터 정보를 가져오는 단계이다
-  - 모든 페이지를 크롤링할때까지 1번 ~ 3번의 워크플로우를 실행한다.
+  - 크롤링할 데이터 정보를 가져오는 단계이다
+  - 모든 웹 페이지를 크롤링할때까지 1번 ~ 3번의 워크플로우를 반복실행 한다
 4. 데이터 저장
-  - 모든 웹 페이지의 크롤링을 종료하였다면 크롤링한 데이터를 저장하여 파일로 만들거나 DB에 저장하여 데이터 분석에 사용한다.
+  - 모든 웹 페이지의 크롤링을 종료하였다면 크롤링한 데이터를 파일로 저장하거 DB에 저장하여 데이터 분석에 사용한다.
 
 
 
@@ -64,7 +65,7 @@ import tqdm
 from datetime import datetime
 from bs4 import BeautifulSoup
 
-# 뽐뿌 게시판 크롤링
+# 뽐뿌 게시판 크롤링 함수 생성
 def get_datas(items):
     """ 뽐뿌 게시판 크롤링 함수
     뽐뿌 사이트 내 뽐뿌 게시판에 작성된 특가 게시글 크롤링
@@ -128,7 +129,7 @@ def get_datas(items):
 
     return pd.DataFrame(data)
 
-# 파라미터
+# 파라미터 설정
 end_page = 5900
 base_url = "https://www.ppomppu.co.kr/zboard/zboard.php?id=ppomppu&page={}"
 temp_list = []
@@ -140,9 +141,12 @@ start_time = time.time()
 for page in tqdm.tqdm(range(2, end_page)):
     response = requests.get(base_url.format(page))
     
+    # Step1. URL 데이터 요청
     if response.status_code == 200:
         html = BeautifulSoup(response.text, 'html.parser')
+        # Step2. HTML 팔싱
         items = html.find_all("tr", ["common-list0", "common-list1"])
+        # Step3. 데이터 크롤링
         temp_df = get_datas(items)
         temp_list.append(temp_df)
         time.sleep(0.1)
@@ -183,9 +187,9 @@ print(f"Crawling took {round(elapsed_time, 2)} seconds")
 
 df = df.merge(hot_df, how="left").fillna(False)
 
-# 데이터 csv 저장
+# Step4. 데이터 csv 저장
 now = str(datetime.now())
 df.to_csv(f"./datas/{now}_{len(df)}개.csv", index=False)
 ```
 
-뽐뿌 게시판을 크롤링하는 코드이며, 위에서 설정한 12개의 데이터를 크롤링하기로 설정한 모든 페이지에서 데이터를 가져온다. 크롤링이 끝나면 데이터를 csv 파일로 저장한다.
+뽐뿌 게시판을 크롤링하는 코드이며, 위에서 설정한 12개의 데이터를 크롤링할 페이지의 수 만큼 데이터를 가져온다. 특가 게시물이 인기/핫 게시물이 되면 특가 게시판에서 인기/핫 게시판으로 이동되기 때문에 인기/핫 게시판을 한번 더 크롤링해주어 인기/핫 게시물인지 확인하는 과정을 거치었다. 마지막으로 크롤링이 끝나면 데이터를 csv 파일로 저장한다.
