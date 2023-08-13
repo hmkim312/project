@@ -41,7 +41,7 @@
 - Project topic : Wishket Website Crawling
 - portfolio URL : https://github.com/hmkim312/project/blob/master/08_Wishket_Crawling/Presentation.md
 
-### 9. Ppompu Crawling
-- project period : 2023.06
-- Project topic : Ppompu Website Crawling
-- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_Crawling/Presentation.md
+### 9. Ppompu special price data analysis
+- project period : 2023.06 ~ 2023.09
+- Project topic : Specail price data crawling, preprocessing, EDA, Modeling
+- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_special_price_data_analysis/README.md
