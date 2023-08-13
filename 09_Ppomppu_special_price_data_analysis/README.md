@@ -6,7 +6,7 @@
 ### 1. Data Crawling
 - project period : 2023.06
 - Project topic : PPOMPU Website Crawling
-- portfolio URL : not yes
+- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_special_price_data_analysis/01.Presentation.md
 
 ### 2. Data preprocessing
 - project period : 2023.07
