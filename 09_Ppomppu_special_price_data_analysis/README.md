@@ -11,7 +11,7 @@
 ### 2. Data preprocessing
 - project period : 2023.07
 - Project topic : Preprocessing for data analysis
-- portfolio URL : not yet
+- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_special_price_data_analysis/02.Presentation.md
 
 ### 3. Special price data analysis
 - project period : 2023.08
