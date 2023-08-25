@@ -16,7 +16,7 @@
 ### 3. Special price data analysis
 - project period : 2023.08
 - Project topic : Special price data analysis - Focusing on Popular/Hot Posts
-- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_special_price_data_analysis/03.Special_price_data_analysis.ipynb
+- portfolio URL : https://github.com/hmkim312/project/blob/master/09_Ppomppu_special_price_data_analysis/03.Presentation.md
 
 ### 4. Categoty prediction modeling
 - project period : 2023.09
